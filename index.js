@@ -34,9 +34,9 @@ module.exports = function implicitFiguresPlugin(md, options) {
       // Lets replace the paragraph tokens with figure tokens.
       var figure = state.tokens[i - 1];
       figure.type = 'figure_open';
-      figure.tag = 'figure';
+      figure.tag = options.figure_open || 'figure';
       state.tokens[i + 1].type = 'figure_close';
-      state.tokens[i + 1].tag = 'figure';
+      state.tokens[i + 1].tag = options.figure_close || 'figure';
 
       if (options.dataType == true) {
         state.tokens[i - 1].attrPush(['data-type', 'image']);
@@ -60,11 +60,11 @@ module.exports = function implicitFiguresPlugin(md, options) {
       if (options.figcaption == true) {
         if (image.children && image.children.length) {
           token.children.push(
-            new state.Token('figcaption_open', 'figcaption', 1)
+            new state.Token('figcaption_open', options.figcaption_open || 'figcaption', 1)
             );
           token.children.splice(token.children.length, 0, ...image.children);
           token.children.push(
-            new state.Token('figcaption_close', 'figcaption', -1)
+            new state.Token('figcaption_close', options.figcaption_close || 'figcaption', -1)
             );
         }
       }
